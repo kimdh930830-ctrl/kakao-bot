@@ -4,13 +4,8 @@ export default function handler(req, res) {
   try {
     const body = req.body;
 
-    if (!body || !body.userRequest) {
-      return res.status(200).json({ message: "OK" });
-    }
+    const message = body?.userRequest?.utterance || "";
 
-    const message = body.userRequest.utterance;
-
-    // 숫자 찾기
     const match = message.match(/[+-]?\d+/);
 
     if (match) {
@@ -22,7 +17,7 @@ export default function handler(req, res) {
         template: {
           outputs: [{
             simpleText: {
-              text: `💰 ${amount}원 반영\n현재 합계: ${total}원`
+              text: `💰 ${amount}원 반영!\n현재 누적: ${total}원`
             }
           }]
         }
@@ -47,7 +42,7 @@ export default function handler(req, res) {
       template: {
         outputs: [{
           simpleText: {
-            text: "금액 또는 '총액' 입력"
+            text: "금액 또는 '총액'을 입력해주세요!"
           }
         }]
       }
@@ -58,11 +53,4 @@ export default function handler(req, res) {
       version: "2.0",
       template: {
         outputs: [{
-          simpleText: {
-            text: "오류 발생"
-          }
-        }]
-      }
-    });
-  }
-}
+          simple
